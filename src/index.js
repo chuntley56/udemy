@@ -16,7 +16,11 @@ constructor(props){
     selectedVideo: null
    };
 
-  YTSearch({key: API_KEY, term: 'dollar shave club'}, (videos) => {
+   this.videoSearch('Dollar Shave Club');
+}
+
+videoSearch(term){
+  YTSearch({key: API_KEY, term: term}, (videos) => {
     this.setState({
       videos: videos,
       selectedVideo: videos[0]
@@ -26,9 +30,11 @@ constructor(props){
 
   render() {
     return (<div>
-      <SearchBar />
+      <SearchBar onSearchTermChange={term => this.videoSearch(term)}/>
       <VideoDetail video={this.state.selectedVideo} />
-      <VideoList videos={this.state.videos} />
+      <VideoList
+      onVideoSelect={selectedVideo => this.setState({selectedVideo})}
+      videos={this.state.videos} />
       </div>
       );
   }
